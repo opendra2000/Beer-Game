@@ -46,6 +46,10 @@ Steps to setup & start the frontend server
 * Make sure you have `node.js` installed. Locate the frontend directory and install all the required packages using `npm install`.
 * Run `npm start` to run in the development mode. 
 
+Steps to run the Frontend test
+--------------------------
+* Locate the frontend directory and run `run npm test` 
+
 
 Steps to run the unittests
 --------------------------
