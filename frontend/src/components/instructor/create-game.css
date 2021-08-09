@@ -1,0 +1,53 @@
+.top-bar1 {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    background-color: #a0b17f;
+    padding: 10px;
+  }
+  
+  .top-bar1 span {
+    font-size: 50px;
+    color: rgb(233, 238, 230);
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+  }
+
+.label{
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 30px;
+}
+
+p{
+    padding: 10px;
+}
+
+input[type=checkbox]{
+    width: 40px;
+}
+
+.form{
+    background-color: #f9fcf4b9;
+    width: 50%;
+    height: 100%;
+    margin-top: 4vh;
+    text-align: left;
+}
+
+button{
+    padding: 15px;
+    font-size: 30px;
+}
+.email{
+  margin-bottom: 2rem;
+}
+.emails{
+  margin-left: 5rem;
+}
+.explanation{
+  font-weight: 300;
+  font-size: smaller;
+  margin-bottom: 0!important;
+  margin-left: 20px;
+}

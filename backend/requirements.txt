@@ -1,0 +1,11 @@
+python-dotenv
+flask
+flask-cors
+yoyo-migrations
+flask-expects-json
+mariadb
+mysql-connector-python
+mysql-connector
+bcrypt
+pymysql
+cryptography

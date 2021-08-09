@@ -1,0 +1,416 @@
+---
+openapi: 3.0.0
+info:
+  title: Beer Game API
+  description: |
+    Group 22 Software Engineering project
+    [http://swagger.io](http://swagger.io) or on
+    [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://virtserver.swaggerhub.com/api-test7/group-22-modified/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://petstore.swagger.io/v2
+tags:
+- name: instructor
+  description: Operations about the instructor
+- name: player
+  description: Operations about the player
+paths:
+  /authenticate:
+    post:
+      tags:
+      - instructor
+      - player
+      summary: authenticate a user
+      description: |
+        Authenticates an existing instructor / player in the database based on email and password. The result is relayed via error code and in the response body. A json object containing a SESSION-KEY field is returned, which should be used for successive authentication requests
+      operationId: registerUser
+      requestBody:
+        description: credentials for new user creation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+        required: true
+      responses:
+        "400":
+          description: Bad request, check schema
+        "200":
+          description: |
+            Successfully Authenticated the session key is returned in the  SESSION-KEY field of the response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authentication_response'
+  /register:
+    post:
+      tags:
+      - instructor
+      - player
+      summary: create a new instrutor / player
+      description: |
+        Adds a new instructor / user to the database based on the request body . A successful call will return a json object containing a  SESSION-KEY key value pair, which should be used as a header to make subsequent authentication-based requests
+      operationId: authenticateInstructor
+      requestBody:
+        description: the credentials and user type (passwordHash should just be the password in plaintext)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+        required: true
+      responses:
+        "405":
+          description: Invalid input or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authentication_response'
+        "200":
+          description: |
+            Successfully Authenticated The session id is returned in a cookie named `SEG21AUTHINSTRUCTOR`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authentication_response'
+  /instructor/game:
+    get:
+      tags:
+      - instructor
+      summary: list games created by an instructor
+      operationId: list_game
+      responses:
+        "400":
+          description: An error occurred
+        "200":
+          description: |
+            games listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game_state'
+      security:
+      - SESSION_KEY: []
+    post:
+      tags:
+      - instructor
+      summary: create a game
+      operationId: create_game
+      requestBody:
+        description: the game parameters, all are optional
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/game_state'
+        required: false
+      responses:
+        "400":
+          description: An error occurred
+        "200":
+          description: |
+            Game successfuly created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+      security:
+      - SESSION_KEY: []
+  /instructor/demand_patterns:
+    get:
+      tags:
+      - instructor
+      summary: get all demand patterns
+      operationId: get_demand_patterns
+      responses:
+        "400":
+          description: An error occurred
+        "200":
+          description: |
+            demand patterns gotten
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+      security:
+      - SESSION_KEY: []
+  /instructor/game/{id}:
+    get:
+      tags:
+      - instructor
+      summary: gets game info
+      description: |
+        returns a game_state object of the desired game id
+      operationId: get_game
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          description: the game id
+      responses:
+        "200":
+          description: |
+            game returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/game_state'
+      security:
+      - SESSION_KEY: []
+    put:
+      tags:
+      - instructor
+      summary: modifies a game
+      description: |
+        modifies a game state if the instructor owns the game
+      operationId: modify_game
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          description: the game id
+      responses:
+        "200":
+          description: |
+            operation completed, success depends on return value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/game_state'
+        "405":
+          description: |
+            instructor is not the owner of the game
+        "400":
+          description: |
+            instructor is not authenticated
+      security:
+      - SESSION_KEY: []
+  /game/join/{id}:
+    post:
+      tags:
+      - player
+      summary: gets game info
+      description: |
+        makes an authenticated user join the game specified by the id
+      operationId: join_game
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          description: the game id
+      responses:
+        "200":
+          description: |
+            game joined
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: an error occurred, try a different role
+      security:
+      - SESSION_KEY: []
+  /game/round:
+    get:
+      tags:
+      - player
+      summary: gets game round info
+      description: |
+        returns an array containing all weeks that have already passed
+      operationId: get_game_weeks
+      responses:
+        "200":
+          description: |
+            success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game_week'
+        "400":
+          description: user is not authenticated or not in game
+      security:
+      - SESSION_KEY: []
+    post:
+      tags:
+      - player
+      summary: sets player order for the current round
+      description: |
+        sets the player's order via an 'order' JSON sent in request body
+      operationId: send_info
+      responses:
+        "200":
+          description: |
+            success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: user is not authenticated or not in game
+      security:
+      - SESSION_KEY: []
+components:
+  schemas:
+    authentication_response:
+      type: object
+      properties:
+        SESSION-KEY:
+          type: string
+    game_state:
+      type: object
+      properties:
+        session_length:
+          type: integer
+        active:
+          type: boolean
+        wholesaler_present:
+          type: boolean
+        retailer_present:
+          type: boolean
+        demand_pattern_id:
+          type: integer
+        info_delay:
+          type: integer
+        info_sharing:
+          type: boolean
+        holding_cost:
+          type: number
+        backlog_cost:
+          type: number
+    game_week:
+      type: object
+      properties:
+        week:
+          type: integer
+        game_id:
+          type: integer
+        factory_inventory:
+          type: integer
+        factory_demand:
+          type: integer
+        factory_incoming:
+          type: integer
+        factory_outgoing:
+          type: integer
+        factory_order:
+          type: integer
+        factory_cost:
+          type: number
+        distributor_inventory:
+          type: integer
+        distributor_demand:
+          type: integer
+        distributor_incoming:
+          type: integer
+        distributor_outgoing:
+          type: integer
+        distributor_order:
+          type: integer
+        distributor_cost:
+          type: number
+        wholesaler_inventory:
+          type: integer
+        wholesaler_demand:
+          type: integer
+        wholesaler_incoming:
+          type: integer
+        wholesaler_outgoing:
+          type: integer
+        wholesaler_order:
+          type: integer
+        wholesaler_cost:
+          type: number
+        retailer_inventory:
+          type: integer
+        retailer_demand:
+          type: integer
+        retailer_incoming:
+          type: integer
+        retailer_outgoing:
+          type: integer
+        retailer_order:
+          type: integer
+        retailer_cost:
+          type: number
+    body:
+      type: object
+      properties:
+        email:
+          type: string
+        passwordHash:
+          type: string
+    body_1:
+      type: object
+      properties:
+        email:
+          type: string
+        passwordHash:
+          type: string
+        role:
+          type: string
+          enum:
+          - player
+          - instructor
+    inline_response_200:
+      type: object
+      properties:
+        game_id:
+          type: integer
+    inline_response_200_1:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the demand pattern id
+        name:
+          type: string
+          description: the name of the demand pattern
+        encoded_data:
+          type: array
+          items:
+            type: integer
+    inline_response_200_2:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - distributor
+          - retailer
+          - factory
+          - wholesaler
+    inline_response_200_3:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: whether the operation succeeded
+  securitySchemes:
+    SESSION_KEY:
+      type: apiKey
+      name: SESSION-KEY
+      in: header

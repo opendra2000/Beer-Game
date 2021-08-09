@@ -1,0 +1,102 @@
+@media (min-width: 600px){
+    #tab1{
+        margin-left:3rem;
+        margin-right: 3rem;
+    }   
+}
+
+#parent{
+    background-color: #fafafa;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Tabs {
+  display: flex;
+  justify-content: space-between;
+}
+ul{
+    background-color: white;
+}
+.box {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  max-width: 800px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.checkboxes{
+    padding: 0!important;
+    margin-bottom: 0!important;
+}
+
+#code{
+    margin-bottom: 2rem;
+}
+
+.join-games{
+    padding: 3rem 2rem;
+}
+
+.create-game
+{
+    padding: 3rem 2rem;
+}
+
+.create-game{
+    display: flex;
+}
+
+.create-game{
+    display: flex;
+    flex-direction: column;
+}
+
+.invite-friends{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+#friend-email{
+    margin-right: 2rem;
+}
+
+#hr-create-game{
+    width: 100%;
+}
+
+#roles, #costs{
+    align-self: center;
+    margin-right: 2rem;
+}
+
+#inventory-title, #cost-title{
+    color: #007bff;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+#invite-friends-title, #rounds-title{
+    color: #007bff;
+    font-weight: 800;
+}
+
+#submit-button{
+    display: flex;
+    flex-direction: column;
+    max-width: 30%;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
