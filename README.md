@@ -39,3 +39,22 @@ Steps to setup & start the backend server
 * If you don't want that hassle, just run the inital db migration from the root backend directory for sqlite `yoyo apply` (remember to be in a virtual environment)
     * set `DATABASE=sqlite` in .env.sample  and run `cp .env.sample .env`
 * From the root backend directory run `flask run` or `python3 main.py`
+
+
+Steps to setup & start the frontend server
+------------------------------------------
+* Make sure you have `node.js` installed. Locate the frontend directory and install all the required packages using `npm install`.
+* Run `npm start` to run in the development mode. 
+
+
+Steps to run the unittests
+--------------------------
+* run `cp .env.sample .env` in the terminal instance, make sure you are inside a python virtual environment
+* From the backend root directory run `python3 -m unittest test.connection_test` to test the connector class, `python3 -m unittest test.game_test` to test the game class
+
+
+
+Steps to run the endpoint tests
+--------------------------------
+* From the frontend directory, open `BROWSER_TESTS.html` in your default browser. Make sure you ran `npm install` beforehand to install dependencies
+
