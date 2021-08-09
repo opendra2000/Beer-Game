@@ -22,3 +22,20 @@ REST API Documentation
 * a YAML-style documentation can be found in the docs/ directory, you can upload this file to swagger on your account to continue developing the API
 * link: https://app.swaggerhub.com/apis-docs/api-test7/group-22-modified/1.0.0/
     - For the TA's, you can consider this an 'expansion of the specifications', as we implemented all the functionalities described in this API . . . since the winning specification said absolutely nothing about the API . . .
+
+Steps to setup & start the backend server
+---------------------------------------------
+* Make sure you have python virtual env installed. Create a python virtual environment in the **root directory of the backend**: `virtualenv venv`. if this doesn't work, try: `python3 -m venv venv`.
+* Switch to the venv: `source venv/bin/activate`
+* Install dependency for mariadb:  `sudo apt-get install libmariadb-dev` or `brew install mariadb` on macOS. 
+* Install all the python requirements: `pip3 install -r requirements.txt`
+* Copy .env.sample to .env `cp .env.sample .env` (For production you need to modify the env variables appropriately to point to correct mariadb instance)
+    * To use a mysql database, modify the variables in .env.sample accordingly and run `cp .env.sample .env` 
+        - set `DATABASE=mariadb`, 
+        - uncomment and set all mariadb connection variables and set them to appropriate values
+        - Manually pipe the sql migration script into the database. ie `mysql -u {user_name} -p {database_name} < migration_mysql.sql`
+    * start the flask session, run `flask run` or `python3 main.py`
+    * **WARNING** Since CLAMV does not currently support mariadb connector, it is impossible to connect to the CLAMV database
+* If you don't want that hassle, just run the inital db migration from the root backend directory for sqlite `yoyo apply` (remember to be in a virtual environment)
+    * set `DATABASE=sqlite` in .env.sample  and run `cp .env.sample .env`
+* From the root backend directory run `flask run` or `python3 main.py`
